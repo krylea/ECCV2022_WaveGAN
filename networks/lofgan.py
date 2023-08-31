@@ -451,7 +451,7 @@ class Decoder(nn.Module):
         x2 = self.Conv1(x1)
         LH1, HL1, HH1 = skips['pool4']
         c, h, w = LH1.size()[-3:]
-        LH1, HL1, HH1 = LH1.view(8,3,c, h, w).mean(dim=1), HL1.view(8,3,c, h, w).mean(dim=1), HH1.view(8,3,c, h, w).mean(dim=1)
+        LH1, HL1, HH1 = LH1.view(-1, 3, c, h, w).mean(dim=1), HL1.view(-1, 3, c, h, w).mean(dim=1), HH1.view(-1, 3, c, h, w).mean(dim=1)
         original1 = skips['conv4_1']
         x_deconv = self.recon_block1(x, LH1, HL1, HH1, original1)
         x2 = x_deconv + x2
@@ -461,14 +461,14 @@ class Decoder(nn.Module):
         LH2, HL2, HH2 = skips['pool3']
         original2 = skips['conv3_1']
         c, h, w = LH2.size()[-3:]
-        LH2, HL2, HH2 = LH2.view(8, 3, c, h, w).mean(dim=1), HL2.view(8, 3, c, h, w).mean(dim=1), HH2.view(8, 3, c, h,w).mean(dim=1)
+        LH2, HL2, HH2 = LH2.view(-1, 3, c, h, w).mean(dim=1), HL2.view(-1, 3, c, h, w).mean(dim=1), HH2.view(-1, 3, c, h,w).mean(dim=1)
         x_deconv2 = self.recon_block1(x1, LH2, HL2, HH2, original2)
 
         LH3, HL3, HH3 = skips['pool2']
         c, h, w = skips['conv2_1'].size()[-3:]
 #        original3 = skips['conv2_1'].view(8, 3, c, h, w).mean(dim=1)
         c, h, w = LH3.size()[-3:]
-        LH3, HL3, HH3 = LH3.view(8, 3, c, h, w).mean(dim=1), HL3.view(8, 3, c, h, w).mean(dim=1), HH3.view(8, 3, c, h,w).mean(dim=1)
+        LH3, HL3, HH3 = LH3.view(-1, 3, c, h, w).mean(dim=1), HL3.view(-1, 3, c, h, w).mean(dim=1), HH3.view(-1, 3, c, h,w).mean(dim=1)
         x_deconv4 = self.recon_block1(x3, LH3, HL3, HH3, original2)
         x5 = self.Upsample(x4+x_deconv2)
         x6 = self.Conv3(x5+x_deconv4)
