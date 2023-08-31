@@ -64,7 +64,7 @@ parser.add_argument('--gpu', type=str, default='0')
 parser.add_argument('--n_sample_test', type=int, default=3)
 args = parser.parse_args()
 
-conf_file = os.path.join(args.name, 'configs.yaml')
+conf_file = os.path.join('configs', "%s_lofgan.yaml" % args.dataset)
 config = get_config(conf_file)
 os.environ['CUDA_VISIBLE_DEVICES'] = args.gpu
 
