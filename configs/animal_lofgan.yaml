@@ -35,4 +35,4 @@ n_sample_train: 3
 n_sample_val: 3
 n_sample_test: 3
 num_generate: 10
-data_root: datasets/animal_128.npy
+data_root: datasets/animals.npy
