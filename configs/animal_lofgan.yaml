@@ -1,5 +1,5 @@
 # logger options
-snapshot_save_iter: 20000
+snapshot_save_iter: 10000
 snapshot_val_iter: 2000
 snapshot_log_iter: 200
 
