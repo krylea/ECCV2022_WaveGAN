@@ -529,8 +529,8 @@ class Decoder(nn.Module):
         # Mean_index
         # LH1, HL1, HH1 = LH1.view(8,3,c, h, w).mean(dim=1), HL1.view(8,3,c, h, w).mean(dim=1), HH1.view(8,3,c, h, w).mean(dim=1)
         # Base_index
-        LH1, HL1, HH1 = LH1.view(8, 3,c, h, w), HL1.view(8, 3,c, h, w), HH1.view(8, 3,c, h, w)
-        LH1, HL1, HH1 = LH1[:,base_index,:,:,:], HL1[:,base_index,:,:,:], HH1[:,base_index,:,:,:]
+        #LH1, HL1, HH1 = LH1.view(8, 3,c, h, w), HL1.view(8, 3,c, h, w), HH1.view(8, 3,c, h, w)
+        #LH1, HL1, HH1 = LH1[:,base_index,:,:,:], HL1[:,base_index,:,:,:], HH1[:,base_index,:,:,:]
         original1 = skips['conv4_1']
         x_deconv = self.recon_block1(x, LH1, HL1, HH1, original1)
         x2 = x_deconv + x2
@@ -543,8 +543,8 @@ class Decoder(nn.Module):
         #Mean_index
         #LH2, HL2, HH2 = LH2.view(8, 3, c, h, w).mean(dim=1), HL2.view(8, 3, c, h, w).mean(dim=1), HH2.view(8, 3, c, h,w).mean(dim=1)
         # Base_index
-        LH2, HL2, HH2 = LH2.view(8, 3, c, h, w), HL2.view(8, 3, c, h, w), HH2.view(8, 3, c, h, w)
-        LH2, HL2, HH2 = LH2[:, base_index, :, :, :], HL2[:, base_index, :, :, :], HH2[:, base_index, :, :, :]
+        #LH2, HL2, HH2 = LH2.view(8, 3, c, h, w), HL2.view(8, 3, c, h, w), HH2.view(8, 3, c, h, w)
+        #LH2, HL2, HH2 = LH2[:, base_index, :, :, :], HL2[:, base_index, :, :, :], HH2[:, base_index, :, :, :]
         x_deconv2 = self.recon_block1(x1, LH2, HL2, HH2, original2)
 
         LH3, HL3, HH3 = skips['pool2']
@@ -554,8 +554,8 @@ class Decoder(nn.Module):
         #Mean_index
         #LH3, HL3, HH3 = LH3.view(8, 3, c, h, w).mean(dim=1), HL3.view(8, 3, c, h, w).mean(dim=1), HH3.view(8, 3, c, h,w).mean(dim=1)
         # Base_index
-        LH3, HL3, HH3 = LH3.view(8, 3, c, h, w), HL3.view(8, 3, c, h, w), HH3.view(8, 3, c, h, w)
-        LH3, HL3, HH3 = LH3[:, base_index, :, :, :], HL3[:, base_index, :, :, :], HH3[:, base_index, :, :, :]
+        #LH3, HL3, HH3 = LH3.view(8, 3, c, h, w), HL3.view(8, 3, c, h, w), HH3.view(8, 3, c, h, w)
+        #LH3, HL3, HH3 = LH3[:, base_index, :, :, :], HL3[:, base_index, :, :, :], HH3[:, base_index, :, :, :]
         x_deconv3 = self.recon_block1(x3, LH3, HL3, HH3, original2)
         x5 = self.Upsample(x4+x_deconv2)
         #x5 = self.Upsample(x4)
@@ -567,8 +567,8 @@ class Decoder(nn.Module):
         # Mean_index
         #LH4, HL4, HH4 = LH4.view(8, 3, c, h, w).mean(dim=1), HL4.view(8, 3, c, h, w).mean(dim=1), HH4.view(8, 3, c, h,w).mean(dim=1)
         # Base_index
-        LH4, HL4, HH4 = LH4.view(8, 3, c, h, w), HL4.view(8, 3, c, h, w), HH4.view(8, 3, c, h, w)
-        LH4, HL4, HH4 = LH4[:, base_index, :, :, :], HL4[:, base_index, :, :, :], HH4[:, base_index, :, :, :]
+        #LH4, HL4, HH4 = LH4.view(8, 3, c, h, w), HL4.view(8, 3, c, h, w), HH4.view(8, 3, c, h, w)
+        #LH4, HL4, HH4 = LH4[:, base_index, :, :, :], HL4[:, base_index, :, :, :], HH4[:, base_index, :, :, :]
         x_deconv4 = self.recon_block3(x6, LH4, HL4, HH4, original3)
 
 
