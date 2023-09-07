@@ -1,3 +1,3 @@
 from .loss import *
 from .blocks import *
-from .lofgan import LoFGAN
+from .lofgan_baseindex import LoFGAN
