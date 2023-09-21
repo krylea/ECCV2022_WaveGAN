@@ -14,9 +14,9 @@ num=$2
 eval_backbone=${3:-'inception'}
 invert=${4:-0}
 
-argstring="--gpu 0 --dataset $dataset --num $num \
+argstring=" --dataset $dataset --num $num \
 --eval_backbone $eval_backbone \
---real_dir fids/${dataset}_${num}/real --ckpt ${dataset}_checkpoint.pt \
+--real_dir fids/${dataset}_${num}/real \
 --fake_dir fids/${dataset}_${num}/fake"
 
 if [ $invert -eq 1 ]
