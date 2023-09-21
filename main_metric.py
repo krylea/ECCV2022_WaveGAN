@@ -67,7 +67,7 @@ args = parser.parse_args()
 
 conf_file = os.path.join('configs', "%s_lofgan.yaml" % args.dataset)
 config = get_config(conf_file)
-os.environ['CUDA_VISIBLE_DEVICES'] = args.gpu
+#os.environ['CUDA_VISIBLE_DEVICES'] = args.gpu
 
 transform_list = [transforms.ToTensor(),
                   transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))]
@@ -82,7 +82,7 @@ if __name__ == '__main__':
     torch.cuda.manual_seed(SEED)
 
     real_dir = args.real_dir
-    fake_dir = os.path.join(args.name, args.fake_dir)
+    fake_dir = args.fake_dir
     print('real dir: ', real_dir)
     print('fake dir: ', fake_dir)
 

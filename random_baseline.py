@@ -65,7 +65,7 @@ args = parser.parse_args()
 
 conf_file = os.path.join('configs', "%s_lofgan.yaml" % args.dataset)
 config = get_config(conf_file)
-os.environ['CUDA_VISIBLE_DEVICES'] = args.gpu
+#os.environ['CUDA_VISIBLE_DEVICES'] = args.gpu
 
 transform_list = [transforms.ToTensor(),
                   transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))]
