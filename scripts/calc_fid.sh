@@ -11,9 +11,19 @@
 
 dataset=$1
 num=$2
+eval_backbone=${3:-'inception'}
+invert=${4:-0}
 
-python main_metric.py --gpu 0 --dataset $dataset --num $num \
+argstring="--gpu 0 --dataset $dataset --num $num \
+--eval_backbone $eval_backbone \
 --name results/${dataset}_sept18 \
 --real_dir fids/${dataset}_${num}/real --ckpt ${dataset}_checkpoint.pt \
---fake_dir fids/${dataset}_${num}/fake
+--fake_dir fids/${dataset}_${num}/fake"
+
+if [ $invert -eq 1 ]
+then
+    argstring="${argstring} --invert_rgb"
+fi
+
+python main_metric.py $argstring
 

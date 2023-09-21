@@ -13,6 +13,7 @@ import torchvision.transforms as transforms
 from trainer import Trainer
 from utils import get_config, unloader, get_model_list
 
+from fid import calculate_fid_given_paths
 
 def fid(real, fake, gpu):
     print('Calculating FID...')
@@ -61,6 +62,8 @@ parser.add_argument('--fake_dir', type=str,default="results/flower_wavegan_base_
 parser.add_argument('--gpu', type=str, default='0')
 parser.add_argument('--n_sample_test', type=int, default=3)
 parser.add_argument('--num', type=int, default=-1)
+parser.add_argument('--invert_rgb', action='store_true')
+parser.add_argument('--eval_backbone', type=str, default='inception')
 args = parser.parse_args()
 
 conf_file = os.path.join('configs', "%s_lofgan.yaml" % args.dataset)
@@ -125,6 +128,24 @@ if __name__ == '__main__':
                     fake_img = fake_img * 255
                 fake_img = Image.fromarray(np.uint8(fake_img))
                 fake_img.save(os.path.join(fake_dir, '{}_{}.png'.format(cls, str(i).zfill(3))), 'png')
+
+    invert_rgb = args.invert_rgb and (args.dataset == 'vggface')
+    eval_backbone = "Inception_V3" if args.eval_backbone == 'inception' else "clip"
+
+    name = "%s_%s" % (args.dataset, num)
+    if invert_rgb:
+        name += "invert"
+    fid_out = "fid_scores.txt" if args.eval_backbone == 'inception' else "fid_clip_scores.txt"
+
+    fid_score = calculate_fid_given_paths(real_dir, fake_dir, torch.device("cuda"), eval_backbone=eval_backbone, invert_rgb=invert_rgb)
+
+    with open(fid_out, 'a') as f:
+        f.write("%s:\t%f\n" % (name, fid_score))
+
+    lpips_score = LPIPS(fake_dir)
+
+    with open("lpips_scores.txt", 'a') as f:
+        f.write("%s:\t%f\n" % (name, fid_score))
 
     #fid(real_dir, fake_dir, args.gpu)
     #LPIPS(fake_dir)
