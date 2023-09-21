@@ -129,6 +129,7 @@ if __name__ == '__main__':
                 fake_img = Image.fromarray(np.uint8(fake_img))
                 fake_img.save(os.path.join(fake_dir, '{}_{}.png'.format(cls, str(i).zfill(3))), 'png')
 
+'''
     invert_rgb = args.invert_rgb and (args.dataset == 'vggface')
     eval_backbone = "Inception_V3" if args.eval_backbone == 'inception' else "clip"
 
@@ -146,6 +147,6 @@ if __name__ == '__main__':
 
     with open("lpips_scores.txt", 'a') as f:
         f.write("%s:\t%f\n" % (name, fid_score))
-
+'''
     #fid(real_dir, fake_dir, args.gpu)
     #LPIPS(fake_dir)
