@@ -60,7 +60,7 @@ if __name__ == '__main__':
         name += "invert"
     fid_out = "fid_scores.txt" if args.eval_backbone == 'inception' else "fid_clip_scores.txt"
 
-    fid_score = calculate_fid_given_paths((real_dir, fake_dir), torch.device("cuda"), eval_backbone=eval_backbone, invert_rgb=invert_rgb)
+    fid_score = calculate_fid_given_paths((real_dir, fake_dir), 50, torch.device("cuda"), eval_backbone=eval_backbone, invert_rgb=invert_rgb)
 
     with open(fid_out, 'a') as f:
         f.write("%s:\t%f\n" % (name, fid_score))
