@@ -120,7 +120,7 @@ if __name__ == '__main__':
         for cls in tqdm(range(data_for_gen.shape[0]), desc='generating fake images'):
             for i in range(128):
                 idx = np.random.choice(data_for_gen.shape[1], 1)
-                fake_img = data_for_gen[cls, idx, :, :, :]
+                fake_img = data_for_gen[cls, idx, :, :, :][0]
                 if args.dataset == 'vggface':
                     fake_img = fake_img * 255
                 fake_img = Image.fromarray(np.uint8(fake_img))
