@@ -49,7 +49,7 @@ except ImportError:
     def tqdm(x):
         return x
 
-from src.setgan2.inception import InceptionV3
+from inception import InceptionV3
 
 
 
