@@ -62,6 +62,7 @@ parser.add_argument('--fake_dir', type=str,default="results/flower_wavegan_base_
 parser.add_argument('--ckpt', type=str, default="gen_00100000.pt")
 parser.add_argument('--gpu', type=str, default='0')
 parser.add_argument('--n_sample_test', type=int, default=3)
+parser.add_argument('--num', type=int, default=-1)
 args = parser.parse_args()
 
 conf_file = os.path.join('configs', "%s_lofgan.yaml" % args.dataset)
@@ -100,6 +101,9 @@ if __name__ == '__main__':
         data = data[1802:]
         num = 30
 
+    if args.num > 0:
+        num = args.num
+
     data_for_gen = data[:, :num, :, :, :]
     data_for_fid = data[:, num:, :, :, :]
 
@@ -132,5 +136,5 @@ if __name__ == '__main__':
                 output = unloader(fake_x[0].cpu())
                 output.save(os.path.join(fake_dir, '{}_{}.png'.format(cls, str(i).zfill(3))), 'png')
 
-    fid(real_dir, fake_dir, args.gpu)
-    LPIPS(fake_dir)
+    #fid(real_dir, fake_dir, args.gpu)
+    #LPIPS(fake_dir)

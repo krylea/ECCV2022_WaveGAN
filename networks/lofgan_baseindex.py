@@ -161,8 +161,8 @@ class LoFGAN(nn.Module):
             
             # visualize the frequency component of fake and real images
             # fake_dir = "./vggface_Frequency"
-            # fake_x, similarity, indices_feat, indices_ref, base_index = self.gen(xs)
-            # xs_index = xs[:,base_index,:,:,:]
+            fake_x, similarity, indices_feat, indices_ref, base_index = self.gen(xs)
+            xs_index = xs[:,base_index,:,:,:]
             # for i in range(8):
             #     img = xs_index[i,:,:,:]
             #     os.makedirs(fake_dir, exist_ok=True)
@@ -170,8 +170,8 @@ class LoFGAN(nn.Module):
             #     if os.path.exists(fake_dir):
             #         output.save(os.path.join(fake_dir, 'xs_{}_Frequency.png'.format(i)), 'png')
             #         #print("save successfully")
-            # LL_real, LH_real, HL_real ,HH_real = self.Pool(xs_index)
-            # LL_fake, LH_fake, HL_fake ,HH_fake = self.Pool(fake_x)
+            LL_real, LH_real, HL_real ,HH_real = self.Pool(xs_index)
+            LL_fake, LH_fake, HL_fake ,HH_fake = self.Pool(fake_x)
             # for i in range(8):
             #     img = LL_real[i,:,:,:]
             #     os.makedirs(fake_dir, exist_ok=True)
