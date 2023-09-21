@@ -4,7 +4,7 @@
 from fid import calculate_fid_given_paths
 import lpips
 import torch
-import tqdm
+from tqdm import tqdm
 import os
 import cv2
 import numpy as np
@@ -53,7 +53,7 @@ real_dir = args.real_dir
 fake_dir = args.fake_dir
 if __name__ == '__main__':
     invert_rgb = args.invert_rgb and (args.dataset == 'vggface')
-    eval_backbone = "Inception_V3" if args.eval_backbone == 'inception' else "clip"
+    eval_backbone = "Inception_V3" if args.eval_backbone == 'inception' else "CLIP"
 
     name = "%s_%s" % (args.dataset, args.num)
     if invert_rgb:
