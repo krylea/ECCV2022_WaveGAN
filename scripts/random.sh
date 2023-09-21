@@ -4,9 +4,8 @@
 #SBATCH --open-mode=append
 #SBATCH --ntasks=1
 #SBATCH --partition=cpu
-#SBATCH --cpus=2
+#SBATCH --cpus-per-task=2
 #SBATCH --mem=50GB
-#SBATCH --exclude=gpu109
 
 dataset=$1
 num=$2
