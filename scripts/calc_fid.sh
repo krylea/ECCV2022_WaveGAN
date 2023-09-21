@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=wavegan-fid
+#SBATCH --job-name=waveganfid
 #SBATCH --output=logs/slurm-%j.txt
 #SBATCH --open-mode=append
 #SBATCH --ntasks=1
