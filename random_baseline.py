@@ -77,7 +77,7 @@ if __name__ == '__main__':
     random.seed(SEED)
     np.random.seed(SEED)
     torch.manual_seed(SEED)
-    torch.cuda.manual_seed(SEED)
+    #torch.cuda.manual_seed(SEED)
 
     real_dir = args.real_dir
     fake_dir = args.fake_dir
