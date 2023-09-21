@@ -112,7 +112,7 @@ if __name__ == '__main__':
                 idx = i
                 real_img = data_for_fid[cls, idx, :, :, :]
                 if args.dataset == 'vggface':
-                    real_img *= 255
+                    real_img = real_img * 255
                 real_img = Image.fromarray(np.uint8(real_img))
                 real_img.save(os.path.join(real_dir, '{}_{}.png'.format(cls, str(i).zfill(3))), 'png')
 
@@ -122,9 +122,9 @@ if __name__ == '__main__':
                 idx = np.random.choice(data_for_gen.shape[1], 1)
                 fake_img = data_for_gen[cls, idx, :, :, :]
                 if args.dataset == 'vggface':
-                    fake_img *= 255
+                    fake_img = fake_img * 255
                 fake_img = Image.fromarray(np.uint8(fake_img))
-                fake_img.save(os.path.join(real_dir, '{}_{}.png'.format(cls, str(i).zfill(3))), 'png')
+                fake_img.save(os.path.join(fake_dir, '{}_{}.png'.format(cls, str(i).zfill(3))), 'png')
 
     #fid(real_dir, fake_dir, args.gpu)
     #LPIPS(fake_dir)
