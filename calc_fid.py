@@ -47,6 +47,7 @@ parser.add_argument('--fake_dir', type=str,default="results/flower_wavegan_base_
 parser.add_argument('--num', type=int, default=-1)
 parser.add_argument('--invert_rgb', action='store_true')
 parser.add_argument('--eval_backbone', type=str, default='inception')
+parser.add_argument('--prefix', type=str, default='')
 args = parser.parse_args()
 
 real_dir = args.real_dir
@@ -55,12 +56,13 @@ if __name__ == '__main__':
     invert_rgb = args.invert_rgb and (args.dataset == 'vggface')
     eval_backbone = "Inception_V3" if args.eval_backbone == 'inception' else "CLIP"
 
-    name = "%s_%s" % (args.dataset, args.num)
+    name = args.prefix + "%s_%s" % (args.dataset, args.num)
     if invert_rgb:
         name += "invert"
     fid_out = "fid_scores.txt" if args.eval_backbone == 'inception' else "fid_clip_scores.txt"
 
     fid_score = calculate_fid_given_paths((real_dir, fake_dir), 50, torch.device("cuda"), eval_backbone=eval_backbone, invert_rgb=invert_rgb)
+
 
     with open(fid_out, 'a') as f:
         f.write("%s:\t%f\n" % (name, fid_score))
@@ -68,4 +70,4 @@ if __name__ == '__main__':
     lpips_score = LPIPS(fake_dir)
 
     with open("lpips_scores.txt", 'a') as f:
-        f.write("%s:\t%f\n" % (name, fid_score))
+        f.write("%s:\t%f\n" % (name, lpips_score))
