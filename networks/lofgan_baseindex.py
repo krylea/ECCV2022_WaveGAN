@@ -161,8 +161,8 @@ class LoFGAN(nn.Module):
             
             # visualize the frequency component of fake and real images
             # fake_dir = "./vggface_Frequency"
-            # fake_x, similarity, indices_feat, indices_ref, base_index = self.gen(xs)
-            # xs_index = xs[:,base_index,:,:,:]
+            fake_x, similarity, indices_feat, indices_ref, base_index = self.gen(xs)
+            xs_index = xs[:,base_index,:,:,:]
             # for i in range(8):
             #     img = xs_index[i,:,:,:]
             #     os.makedirs(fake_dir, exist_ok=True)
@@ -170,8 +170,8 @@ class LoFGAN(nn.Module):
             #     if os.path.exists(fake_dir):
             #         output.save(os.path.join(fake_dir, 'xs_{}_Frequency.png'.format(i)), 'png')
             #         #print("save successfully")
-            # LL_real, LH_real, HL_real ,HH_real = self.Pool(xs_index)
-            # LL_fake, LH_fake, HL_fake ,HH_fake = self.Pool(fake_x)
+            LL_real, LH_real, HL_real ,HH_real = self.Pool(xs_index)
+            LL_fake, LH_fake, HL_fake ,HH_fake = self.Pool(fake_x)
             # for i in range(8):
             #     img = LL_real[i,:,:,:]
             #     os.makedirs(fake_dir, exist_ok=True)
@@ -529,7 +529,7 @@ class Decoder(nn.Module):
         # Mean_index
         # LH1, HL1, HH1 = LH1.view(8,3,c, h, w).mean(dim=1), HL1.view(8,3,c, h, w).mean(dim=1), HH1.view(8,3,c, h, w).mean(dim=1)
         # Base_index
-        LH1, HL1, HH1 = LH1.view(8, 3,c, h, w), HL1.view(8, 3,c, h, w), HH1.view(8, 3,c, h, w)
+        LH1, HL1, HH1 = LH1.view(-1, 3,c, h, w), HL1.view(-1, 3,c, h, w), HH1.view(-1, 3,c, h, w)
         LH1, HL1, HH1 = LH1[:,base_index,:,:,:], HL1[:,base_index,:,:,:], HH1[:,base_index,:,:,:]
         original1 = skips['conv4_1']
         x_deconv = self.recon_block1(x, LH1, HL1, HH1, original1)
@@ -543,7 +543,7 @@ class Decoder(nn.Module):
         #Mean_index
         #LH2, HL2, HH2 = LH2.view(8, 3, c, h, w).mean(dim=1), HL2.view(8, 3, c, h, w).mean(dim=1), HH2.view(8, 3, c, h,w).mean(dim=1)
         # Base_index
-        LH2, HL2, HH2 = LH2.view(8, 3, c, h, w), HL2.view(8, 3, c, h, w), HH2.view(8, 3, c, h, w)
+        LH2, HL2, HH2 = LH2.view(-1, 3, c, h, w), HL2.view(-1, 3, c, h, w), HH2.view(-1, 3, c, h, w)
         LH2, HL2, HH2 = LH2[:, base_index, :, :, :], HL2[:, base_index, :, :, :], HH2[:, base_index, :, :, :]
         x_deconv2 = self.recon_block1(x1, LH2, HL2, HH2, original2)
 
@@ -554,7 +554,7 @@ class Decoder(nn.Module):
         #Mean_index
         #LH3, HL3, HH3 = LH3.view(8, 3, c, h, w).mean(dim=1), HL3.view(8, 3, c, h, w).mean(dim=1), HH3.view(8, 3, c, h,w).mean(dim=1)
         # Base_index
-        LH3, HL3, HH3 = LH3.view(8, 3, c, h, w), HL3.view(8, 3, c, h, w), HH3.view(8, 3, c, h, w)
+        LH3, HL3, HH3 = LH3.view(-1, 3, c, h, w), HL3.view(-1, 3, c, h, w), HH3.view(-1, 3, c, h, w)
         LH3, HL3, HH3 = LH3[:, base_index, :, :, :], HL3[:, base_index, :, :, :], HH3[:, base_index, :, :, :]
         x_deconv3 = self.recon_block1(x3, LH3, HL3, HH3, original2)
         x5 = self.Upsample(x4+x_deconv2)
@@ -567,7 +567,7 @@ class Decoder(nn.Module):
         # Mean_index
         #LH4, HL4, HH4 = LH4.view(8, 3, c, h, w).mean(dim=1), HL4.view(8, 3, c, h, w).mean(dim=1), HH4.view(8, 3, c, h,w).mean(dim=1)
         # Base_index
-        LH4, HL4, HH4 = LH4.view(8, 3, c, h, w), HL4.view(8, 3, c, h, w), HH4.view(8, 3, c, h, w)
+        LH4, HL4, HH4 = LH4.view(-1, 3, c, h, w), HL4.view(-1, 3, c, h, w), HH4.view(-1, 3, c, h, w)
         LH4, HL4, HH4 = LH4[:, base_index, :, :, :], HL4[:, base_index, :, :, :], HH4[:, base_index, :, :, :]
         x_deconv4 = self.recon_block3(x6, LH4, HL4, HH4, original3)
 
@@ -652,5 +652,3 @@ class LocalFusionModule(nn.Module):
         feat = feat.view(b, c, h, w)  # (32*128*8*8)
 
         return feat, feat_indices, ref_indices  # (32*128*8*8), (32*12), (32*2*12)
-
-

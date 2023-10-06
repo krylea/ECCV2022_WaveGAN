@@ -55,10 +55,10 @@ def LPIPS(root):
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--name', type=str,default="results/flower_wavegan_base_index")
-parser.add_argument('--dataset', type=str, default="flower")
-parser.add_argument('--real_dir', type=str, default="results/flower_wavegan_base_index/reals")
-parser.add_argument('--fake_dir', type=str,default="results/flower_wavegan_base_index/tests")
+parser.add_argument('--name', type=str,default="results/animal_test")
+parser.add_argument('--dataset', type=str, default="animal")
+parser.add_argument('--real_dir', type=str, default="animal_test/reals")
+parser.add_argument('--fake_dir', type=str,default="animal_test/fakes")
 parser.add_argument('--ckpt', type=str, default="gen_00100000.pt")
 parser.add_argument('--gpu', type=str, default='0')
 parser.add_argument('--n_sample_test', type=int, default=3)
@@ -92,13 +92,13 @@ if __name__ == '__main__':
     data = np.load(config['data_root'])
     if args.dataset == 'flower':
         data = data[85:]
-        num = 10
+        num = 3
     elif args.dataset == 'animal':
         data = data[119:]
-        num = 10
+        num = 3
     elif args.dataset == 'vggface':
         data = data[1802:]
-        num = 30
+        num = 3
 
     data_for_gen = data[:, :num, :, :, :]
     data_for_fid = data[:, num:, :, :, :]
@@ -113,6 +113,17 @@ if __name__ == '__main__':
                     real_img *= 255
                 real_img = Image.fromarray(np.uint8(real_img))
                 real_img.save(os.path.join(real_dir, '{}_{}.png'.format(cls, str(i).zfill(3))), 'png')
+        
+        cond_dir = "/scratch/ssd004/scratch/ziyuwang/ECCV2022_WaveGAN/cond"
+        os.makedirs(cond_dir, exist_ok=True)
+        for cls in tqdm(range(data_for_gen.shape[0]), desc='preparing conditioning images'):
+            for i in range(data_for_gen.shape[1]):
+                idx = i
+                cond_img = data_for_gen[cls, idx, :, :, :]
+                if args.dataset == 'vggface':
+                    cond_img *= 255
+                cond_img = Image.fromarray(np.uint8(cond_img))
+                cond_img.save(os.path.join(cond_dir, '{}_{}.png'.format(cls, str(i).zfill(3))), 'png')
 
     if os.path.exists(fake_dir):
         trainer = Trainer(config)
